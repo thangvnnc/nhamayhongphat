@@ -38,23 +38,23 @@
                     <p class="card-category">Quản lý khách hàng</p>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form class="frm-login" action="/user/login">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Tên đăng nhập</label>
-                                    <input type="text" class="form-control" name="edtUsername">
+                                    <input type="text" class="form-control edt-username" name="username">
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Mật khẩu</label>
-                                    <input type="password" class="form-control" name="edtPassword">
+                                    <input type="password" class="form-control edt-password" name="password">
                                 </div>
                             </div>
                         </div>
-                        <a class="btn btn-primary pull-right" href="find.html">Đăng nhập</a>
+                        <a class="btn btn-primary pull-right btn-login" href="#">Đăng nhập</a>
                         <div class="clearfix"></div>
                     </form>
                 </div>
@@ -107,6 +107,8 @@
 <script src="./assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="./assets/demo/demo.js"></script>
+<script src="./assets/js/core/message-alert.js"></script>
+
 <script>
     $().ready(function () {
         $sidebar = $('.sidebar');
@@ -275,6 +277,89 @@
 
         });
     });
+</script>
+
+<script>
+    if(localStorage.getItem("user") !== null) {
+        window.open("./customer-list.html","_self")
+    };
+
+    $(".frm-login").on( "keypress", function(e) {
+        if (e.which == 13 && !e.shiftKey) {
+            login();
+        }
+    });
+
+    $('.btn-login').on('click', function (e) {
+        login();
+    });
+
+    var DateDiff = {
+        inDays: function(d1, d2) {
+            var t2 = d2.getTime();
+            var t1 = d1.getTime();
+
+            return parseInt((t2-t1)/(24*3600*1000));
+        },
+
+        inWeeks: function(d1, d2) {
+            var t2 = d2.getTime();
+            var t1 = d1.getTime();
+
+            return parseInt((t2-t1)/(24*3600*1000*7));
+        },
+
+        inMonths: function(d1, d2) {
+            var d1Y = d1.getFullYear();
+            var d2Y = d2.getFullYear();
+            var d1M = d1.getMonth();
+            var d2M = d2.getMonth();
+
+            return (d2M+12*d2Y)-(d1M+12*d1Y);
+        },
+
+        inYears: function(d1, d2) {
+            return d2.getFullYear()-d1.getFullYear();
+        }
+    };
+
+    function login() {
+        let username = $('.edt-username').val();
+        let password = $('.edt-password').val();
+        $.ajax({
+            url: "/user/login",
+            method: "POST",
+            data: JSON.stringify({
+                username: username,
+                password: password
+            }),
+            contentType: 'application/json; charset=UTF-8',
+            processData: false,
+            success: function (data) {
+                let code = data.code;
+                let content = data.content;
+
+                if(code !== 0)
+                {
+                    loginErr();
+                    return;
+                }
+
+                let dateExpired = new Date(content.expired);
+                let dateNow = new Date();
+                if (dateExpired < dateNow) {
+                    expiredErr();
+                    return;
+                }
+
+                localStorage.setItem("user", JSON.stringify(content));
+                window.open("./customer-list.html","_self")
+            },
+            error: function (request, status, error) {
+                errorServer();
+            }
+        });
+    }
 </script>
 </body>
 

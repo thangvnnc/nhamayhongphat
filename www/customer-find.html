@@ -38,23 +38,30 @@
             <ul class="nav">
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="./find.html">
+                    <a class="nav-link" href="./customer-find.html">
                         <i class="material-icons">search</i>
                         <p>Tìm kiếm</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="./main.html">
+                    <a class="nav-link" href="./customer-list.html">
                         <i class="material-icons">list</i>
                         <p>Danh sách khách hàng</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="./user.html">
+                    <a class="nav-link" href="./customer-add.html">
                         <i class="material-icons">add</i>
                         <p>Thêm khách hàng</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link btn-logout" href="#">
+                        <i class="material-icons">exit_to_app</i>
+                        <p>Đăng xuất</p>
                     </a>
                 </li>
             </ul>
@@ -65,7 +72,7 @@
         <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
             <div class="container-fluid">
                 <div class="navbar-wrapper">
-                    <a class="navbar-brand" href="javascript:void(0)">Tìm kiếm khách hàng</a>
+                    <a class="navbar-brand" href="javascript:void(0)">Tìm khách hàng</a>
                 </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -80,43 +87,43 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-header card-header-primary">
-                                <h4 class="card-title">Tìm kiếm</h4>
+                                <h4 class="card-title">Tìm</h4>
                                 <p class="card-category"></p>
                             </div>
                             <div class="card-body">
-                                <form>
+                                <form onsubmit="return false">
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-12">
                                             <div class="form-group">
                                                 <h4><strong>Thông tin khách hàng</strong></h4>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-6">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Mã khách hàng</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="text" class="form-control cs-code">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-6">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Tên khách hàng</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="text" class="form-control cs-name">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-6">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Số điện thoại</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="tel" class="form-control cs-phone">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-6">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Địa chỉ khách hàng</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="text" class="form-control cs-address">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -124,57 +131,57 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-12">
                                             <div class="form-group">
                                                 <label>Ghi chú</label>
                                                 <div class="form-group">
                                                     <label class="bmd-label-floating">Vui lòng nhập nội dung ghi chú ở đây</label>
-                                                    <textarea class="form-control" rows="5"></textarea>
+                                                    <textarea class="form-control cs-note" rows="5"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-12">
                                             <div class="form-group">
                                                 <h4><strong>Số đo quần</strong></h4>
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-4">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Độ dài</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="number" class="form-control cs-qdodai">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-4">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Lưng</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="number" class="form-control cs-qlung">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-4">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Mông</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="number" class="form-control cs-qmong">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-4">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Đáy</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="number" class="form-control cs-qday">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-4">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Đùi</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="number" class="form-control cs-qdui">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-4">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Ống quần</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="number" class="form-control cs-qongquan">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -182,59 +189,59 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-12">
                                             <div class="form-group">
                                                 <h4><strong>Số đo áo</strong></h4>
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-4">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Độ dài</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="number" class="form-control cs-adodai">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-4">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Vai</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="number" class="form-control cs-avai">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-4">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Tay</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="number" class="form-control cs-atay">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-3">
+                                                    <div class="col-3">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Ngực</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="number" class="form-control cs-anguc">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-3">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Eo</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="number" class="form-control cs-aeo">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-3">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Mông</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="number" class="form-control cs-among">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-3">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">Cổ</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="number" class="form-control cs-aco">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="main.html" class="btn btn-primary pull-right">Tìm kiếm</a>
+                                    <button class="btn btn-primary pull-right btn-search">Tìm kiếm</button>
                                     <div class="clearfix"></div>
                                 </form>
                             </div>
@@ -288,10 +295,10 @@
 <script src="./assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="./assets/demo/demo.js"></script>
+<script src="./assets/js/core/message-alert.js"></script>
+
 <script>
     $(document).ready(function () {
-
-
         $().ready(function () {
             $sidebar = $('.sidebar');
 
@@ -459,6 +466,38 @@
 
             });
         });
+
+    });
+
+    $('.btn-search').on('click', function(e) {
+        let customData = {};
+        customData.code     = $('.cs-code').val()      == "" ? undefined : $('.cs-code').val()    ;
+        customData.name     = $('.cs-name').val()      == "" ? undefined : $('.cs-name').val()    ;
+        customData.phone    = $('.cs-phone').val()     == "" ? undefined : $('.cs-phone').val()   ;
+        customData.address  = $('.cs-address').val()   == "" ? undefined : $('.cs-address').val() ;
+        customData.note     = $('.cs-note').val()      == "" ? undefined : $('.cs-note').val()    ;
+        customData.qdodai   = $('.cs-qdodai').val()    == "" ? undefined : $('.cs-qdodai').val()  ;
+        customData.qlung    = $('.cs-qlung').val()     == "" ? undefined : $('.cs-qlung').val()   ;
+        customData.qmong    = $('.cs-qmong').val()     == "" ? undefined : $('.cs-qmong').val()   ;
+        customData.qday     = $('.cs-qday').val()      == "" ? undefined : $('.cs-qday').val()    ;
+        customData.qdui     = $('.cs-qdui').val()      == "" ? undefined : $('.cs-qdui').val()    ;
+        customData.qongquan = $('.cs-qongquan').val()  == "" ? undefined : $('.cs-qongquan').val();
+        customData.adodai   = $('.cs-adodai').val()    == "" ? undefined : $('.cs-adodai').val()  ;
+        customData.avai     = $('.cs-avai').val()      == "" ? undefined : $('.cs-avai').val()    ;
+        customData.atay     = $('.cs-atay').val()      == "" ? undefined : $('.cs-atay').val()    ;
+        customData.anguc    = $('.cs-anguc').val()     == "" ? undefined : $('.cs-anguc').val()   ;
+        customData.aeo      = $('.cs-aeo').val()       == "" ? undefined : $('.cs-aeo').val()     ;
+        customData.among    = $('.cs-among').val()     == "" ? undefined : $('.cs-among').val()   ;
+        customData.aco      = $('.cs-aco').val()       == "" ? undefined : $('.cs-aco').val()     ;
+
+        localStorage.setItem("customer-find-data", JSON.stringify(customData));
+        window.open("./customer-find-list.html","_self");
+    });
+</script>
+<script>
+    $('.btn-logout').on('click', function(e) {
+        localStorage.removeItem('user');
+        window.open("./index.html","_self");
     });
 </script>
 </body>
