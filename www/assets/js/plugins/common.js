@@ -1,0 +1,1 @@
+let URLBase = "http://hongphat.tinhlaisuat.info";

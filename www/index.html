@@ -107,7 +107,8 @@
 <script src="./assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="./assets/demo/demo.js"></script>
-<script src="./assets/js/core/message-alert.js"></script>
+<script src="assets/js/plugins/common.js"></script>
+<script src="assets/js/plugins/message-alert.js"></script>
 
 <script>
     $().ready(function () {
@@ -327,7 +328,7 @@
         let username = $('.edt-username').val();
         let password = $('.edt-password').val();
         $.ajax({
-            url: "/user/login",
+            url: URLBase + "/user/login",
             method: "POST",
             data: JSON.stringify({
                 username: username,
