@@ -170,8 +170,7 @@
 <script src="assets/js/plugins/message-alert.js"></script>
 
 <script>
-    $(document).ready(function () {   
-
+    $(document).ready(function () {
         $().ready(function () {
             $sidebar = $('.sidebar');
 
@@ -342,15 +341,20 @@
     });
 </script>
 <script>
+
+    $('.btn-logout').on('click', function(e) {
+        let r = confirm("Bạn có chắc sẽ đăng xuất không?");
+        if (r == true) {
+            localStorage.removeItem('user');
+            window.open("./index.html","_self");
+        }
+    });
+
     resize();
     let pageNumber = 0;
     let itemsGlobal = [];
     let loadPage = false;
 
-    $('.btn-logout').on('click', function(e) {
-        localStorage.removeItem('user');
-        window.open("./index.html","_self")
-    });
 
     loadListCustomer(pageNumber);
 
@@ -376,7 +380,6 @@
             contentType: 'application/json; charset=UTF-8',
             processData: false,
             success: function (data) {
-                console.log(data);
                 let code = data.code;
                 let content = data.content;
                 if(code !== 0)
@@ -429,7 +432,18 @@
         window.open("customer-edit.html","_self")
     });
 
-
+    // alasql("CREATE TABLE example1 (a INT, b INT)");
+    // // alasql's data store for a table can be assigned directly
+    // alasql.tables.example1.data = [
+    //     {a:2,b:6},
+    //     {a:3,b:4}
+    // ];
+    // // ... or manipulated with normal SQL
+    // alasql("INSERT INTO example1 VALUES (1,5)");
+    //
+    // var res = alasql("SELECT * FROM example1 ORDER BY b DESC");
+    //
+    // console.log(res); // [{a:2,b:6},{a:1,b:5},{a:3,b:4}]
 </script>
 </body>
 

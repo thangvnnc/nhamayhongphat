@@ -470,6 +470,15 @@
         });
 
     });
+</script>
+<script>
+    $('.btn-logout').on('click', function(e) {
+        let r = confirm("Bạn có chắc sẽ đăng xuất không?");
+        if (r == true) {
+            localStorage.removeItem('user');
+            window.open("./index.html","_self");
+        }
+    });
 
     $('.btn-save').on('click', function(e) {
         let customDataAdd = {};
@@ -522,12 +531,6 @@
             }
         });
     }
-</script>
-<script>
-    $('.btn-logout').on('click', function(e) {
-        localStorage.removeItem('user');
-        window.open("./index.html","_self");
-    });
 </script>
 </body>
 

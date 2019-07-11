@@ -473,6 +473,17 @@
 
     });
 
+
+</script>
+<script>
+    $('.btn-logout').on('click', function(e) {
+        let r = confirm("Bạn có chắc sẽ đăng xuất không?");
+        if (r == true) {
+            localStorage.removeItem('user');
+            window.open("./index.html","_self");
+        }
+    });
+
     let dataGlobal = null;
     loadDataCustommer();
     function loadDataCustommer() {
@@ -563,7 +574,10 @@
     }
 
     $('.btn-del').on('click', function (e) {
-        del();
+        let r = confirm("Bạn có chắc sẽ xóa không?");
+        if (r == true) {
+            del();
+        }
     });
 
     function del() {
@@ -592,12 +606,6 @@
             }
         });
     }
-</script>
-<script>
-    $('.btn-logout').on('click', function(e) {
-        localStorage.removeItem('user');
-        window.open("./index.html","_self")
-    });
 </script>
 </body>
 

@@ -342,11 +342,15 @@
     });
 </script>
 <script>
-    resize();
     $('.btn-logout').on('click', function(e) {
-        localStorage.removeItem('user');
-        window.open("./index.html","_self")
+        let r = confirm("Bạn có chắc sẽ đăng xuất không?");
+        if (r == true) {
+            localStorage.removeItem('user');
+            window.open("./index.html","_self");
+        }
     });
+
+    resize();
 
     let itemsGlobal = [];
     let dataFind = localStorage.getItem("customer-find-data");

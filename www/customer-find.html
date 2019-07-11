@@ -471,6 +471,16 @@
 
     });
 
+</script>
+<script>
+    $('.btn-logout').on('click', function(e) {
+        let r = confirm("Bạn có chắc sẽ đăng xuất không?");
+        if (r == true) {
+            localStorage.removeItem('user');
+            window.open("./index.html","_self");
+        }
+    });
+
     $('.btn-search').on('click', function(e) {
         let customData = {};
         customData.code     = $('.cs-code').val()      == "" ? undefined : $('.cs-code').val()    ;
@@ -494,12 +504,6 @@
 
         localStorage.setItem("customer-find-data", JSON.stringify(customData));
         window.open("./customer-find-list.html","_self");
-    });
-</script>
-<script>
-    $('.btn-logout').on('click', function(e) {
-        localStorage.removeItem('user');
-        window.open("./index.html","_self");
     });
 </script>
 </body>
