@@ -102,3 +102,18 @@ function addSuccess() {
         }
     });
 }
+
+function waitRun() {
+    $.notify({
+        icon: "backup",
+        message: "Vui lòng đợi xử lý..."
+
+    }, {
+        type: 'info',
+        timer: 20000,
+        placement: {
+            from: 'bottom',
+            align: 'center'
+        }
+    });
+}
