@@ -328,6 +328,7 @@
     function login() {
         let username = $('.edt-username').val();
         let password = $('.edt-password').val();
+        console.log(URLBase + "/user/login");
         $.ajax({
             url: URLBase + "/user/login",
             method: "POST",
