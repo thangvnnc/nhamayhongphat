@@ -369,9 +369,23 @@
     });
 
     $('.main-panel').bind('touchmove', function(e) {
-        calcScrollLoadMore();
+        touchMoveLoadMore();
     });
 
+    // Sử dụng cho device android ios
+    function touchMoveLoadMore() {
+        if (itemsGlobal.length < 50 || loadPage === true)
+        {
+            return;
+        }
+
+        if ($(window).scrollTop() + window.innerHeight >= document.body.scrollHeight < 400)
+        {
+            loadListCustomer(pageNumber);
+        }
+    }
+
+    // Sử dụng cho browser
     function calcScrollLoadMore() {
         if (itemsGlobal.length < 50 || loadPage === true)
         {
