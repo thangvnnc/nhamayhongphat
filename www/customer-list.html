@@ -362,18 +362,28 @@
     let itemsGlobal = [];
     let loadPage = false;
 
-
     loadListCustomer(pageNumber);
 
     $('.main-panel').scroll(function() {
-        if (itemsGlobal.length < 50 && loadPage === false)
+        calcScrollLoadMore();
+    });
+
+    $('.main-panel').bind('touchmove', function(e) {
+        calcScrollLoadMore();
+    });
+
+    function calcScrollLoadMore() {
+        if (itemsGlobal.length < 50 || loadPage === true)
         {
             return;
         }
-        if($('.main-panel').scrollTop() + $('.main-panel').height() > $(document).height() - 100) {
+
+        // 70 margin top
+        // Nếu cách bot dưới 400 thì load thêm dữ liệu
+        if($('.content').height() - 70 - $('.main-panel').scrollTop() - $(window).height() < 400) {
             loadListCustomer(pageNumber);
         }
-    });
+    }
 
     function loadListCustomer(page) {
         loadPage = true;
