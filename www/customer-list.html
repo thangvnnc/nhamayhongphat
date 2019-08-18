@@ -368,6 +368,10 @@
         calcScrollLoadMore();
     });
 
+    window.addEventListener("scroll", function () {
+        calcScrollLoadMore();
+    }, false);
+
     $('.main-panel').bind('touchmove', function(e) {
         touchMoveLoadMore();
     });
@@ -391,10 +395,15 @@
         {
             return;
         }
+        var scrollValue = $('.main-panel').scrollTop();
+        if (scrollValue == 0)
+        {
+            scrollValue = $('body').scrollTop();
+        }
 
         // 70 margin top
         // Nếu cách bot dưới 400 thì load thêm dữ liệu
-        if($('.content').height() - 70 - $('.main-panel').scrollTop() - $(window).height() < 400) {
+        if($('.content').height() - 70 - scrollValue - $(window).height() < 400) {
             loadListCustomer(pageNumber);
         }
     }
