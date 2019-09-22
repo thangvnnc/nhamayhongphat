@@ -362,7 +362,47 @@
     let itemsGlobal = [];
     let dataFind = localStorage.getItem("customer-find-data");
     let customerData = JSON.parse(dataFind);
-    search();
+    searchLocal();
+
+    function searchLocal() {
+        $('.btn-search').prop( "disabled", true);
+        var listCustomerLocal = [];
+
+        if ( localStorage.getItem("listCustomerLocal") ) {
+            listCustomerLocal = JSON.parse(localStorage.getItem("listCustomerLocal"));
+        }
+        alasql('CREATE TABLE customers');
+        alasql.tables.customers.data = listCustomerLocal;
+        var code = customerData.code === undefined ? '' : customerData.code;
+        var name = customerData.name === undefined ? '' : customerData.name;
+        var phone    = customerData.phone === undefined ? '' : customerData.phone;
+        var address  = customerData.address === undefined ? '' : customerData.address;
+        var note     = customerData.note === undefined ? '' : customerData.note;
+        var qdodai   = customerData.qdodai === undefined ? '' : customerData.qdodai;
+        var qlung    = customerData.qlung === undefined ? '' : customerData.qlung;
+        var qmong    = customerData.qmong === undefined ? '' : customerData.qmong;
+        var qday     = customerData.qday === undefined ? '' : customerData.qday;
+        var qdui     = customerData.qdui === undefined ? '' : customerData.qdui;
+        var qongquan = customerData.qongquan === undefined ? '' : customerData.qongquan;
+        var adodai   = customerData.adodai === undefined ? '' : customerData.adodai;
+        var avai     = customerData.avai === undefined ? '' : customerData.avai;
+        var atay     = customerData.atay === undefined ? '' : customerData.atay;
+        var anguc    = customerData.anguc === undefined ? '' : customerData.anguc;
+        var aeo      = customerData.aeo === undefined ? '' : customerData.aeo;
+        var among    = customerData.among === undefined ? '' : customerData.among;
+        var aco      = customerData.aco === undefined ? '' : customerData.aco;
+
+        var list = alasql('SELECT *  from customers WHERE code LIKE "%'+ code + '%" and name LIKE "%'+ name + '%" and phone LIKE "%' + phone +'%" and address LIKE "%'+ 
+        address + '%" and note LIKE "%' + note + '%" ');
+
+        // and qdodai LIKE "%' + qdodai + '%" and qlung LIKE "%'+ qlung +'%" and qmong LIKE "%'+ qmong 
+        // '%"   and qdui LIKE "%' + qdui + '%" and qongquan LIKE "%'+ qongquan + '%" and adodai LIKE "%'+ adodai +'%"  and avai LIKE "%'+ avai +'%" and atay LIKE "%'
+        // + atay +'%" and anguc LIKE "%'+ anguc +'%" and aeo LIKE "%'+ aeo +'%" and among LIKE "%'+ among +'%" and aco LIKE "%' + aco + '%"'
+        initListCustomer(list);
+    
+        $('.btn-search').prop( "disabled", false);
+        $('.img-loading').hide();
+    }
 
     function search() {
         $('.btn-search').prop( "disabled", true);

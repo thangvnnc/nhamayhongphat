@@ -1,5 +1,5 @@
 let URLBase = "http://hongphat.tinhlaisuat.info";
-// let URLBase = "http://local.com";
+// let URLBase = "http://server.hongphat.com";
 
 // let DBcustomers = localStorage.getItem('db_customers');
 // let DBusers = localStorage.getItem('db_users');

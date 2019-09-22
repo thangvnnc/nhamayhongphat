@@ -74,6 +74,13 @@
                     </a>
                 </li>
 
+                <li class="nav-item btn-sync">
+                    <a class="nav-link" href="javascript:void(0)">
+                        <i class="material-icons">sync</i>
+                        <p>Đồng bộ dữ liệu</p>
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link btn-logout" href="#">
                         <i class="material-icons">exit_to_app</i>
@@ -100,7 +107,7 @@
             </div>
         </nav>
         <!-- End Navbar -->
-        <div class="content">
+        <div class="content" id="top">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -177,8 +184,15 @@
 <script src="assets/js/plugins/common.js"></script>
 
 <script>
+    //console.log(window.navigator.onLine);
+    // window.addEventListener('online', () => console.log('came online'));
+    // window.addEventListener('offline', () => console.log('came offline'));
+    var isOnline = window.navigator.onLine;
+    
     $(document).ready(function () {
         $().ready(function () {
+            
+            
             $sidebar = $('.sidebar');
 
             $sidebar_img_container = $sidebar.find('.sidebar-background');
@@ -195,7 +209,6 @@
                 if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
                     $('.fixed-plugin .dropdown').addClass('open');
                 }
-
             }
 
             $('.fixed-plugin a').click(function (event) {
@@ -361,6 +374,7 @@
     let pageNumber = 0;
     let itemsGlobal = [];
     let loadPage = false;
+    var listCustomerLocal = [];
 
     loadListCustomer(pageNumber);
 
@@ -408,48 +422,17 @@
         }
     }
 
-    function loadListCustomer(page) {
-        loadPage = true;
-        $('.img-loading').show();
-        $.ajax({
-            url: URLBase + "/customer/get",
-            method: "POST",
-            data: JSON.stringify({
-                pageNumber: page
-            }),
-            contentType: 'application/json; charset=UTF-8',
-            processData: false,
-            success: function (data) {
-                let code = data.code;
-                let content = data.content;
-                if(code !== 0)
-                {
-                    loadCustomerError();
-                    return;
-                }
-                initListCustomer(content);
-                pageNumber++;
-            },
-            error: function (request, status, error) {
-                errorServer();
-            },
-            complete: function () {
-                loadPage = false;
-                $('.img-loading').hide();
-            }
-        });
-    }
-
     function initListCustomer(content) {
-        itemsGlobal = content.items;
+        itemsGlobal = content;
         for (let idx = 0; idx < itemsGlobal.length; idx++) {
             let item = itemsGlobal[idx];
+            var note = item.note === undefined ? '' : item.note;
             let html =
                 '<tr class="td-actions customer-item" customer-idx="' + idx + '">' +
                 '<td>' + item.code + '</td>' +
                 '<td>' + item.name + '</td>' +
                 '<td>' + item.phone + '</td>' +
-                '<td class="width-768">'+ item.note +'</td>' +
+                '<td class="width-768">'+ note +'</td>' +
                 '<td class="width-768">'+ item.created_at +'</td>' +
                 '</tr>';
             $('.customer-list').append(html);
@@ -484,6 +467,65 @@
     // var res = alasql("SELECT * FROM example1 ORDER BY b DESC");
     //
     // console.log(res); // [{a:2,b:6},{a:1,b:5},{a:3,b:4}]
+
+    $(".btn-sync").click(function (event) {
+        document.location.href = "#top";
+        localStorage.setItem("listCustomerLocal", JSON.stringify([]));
+        loadListCustomer(0);
+    });
+
+    function loadListCustomer(page) {
+        if ( localStorage.getItem("listCustomerLocal") ) {
+            listCustomerLocal = JSON.parse(localStorage.getItem("listCustomerLocal"));
+        }
+        loadPage = true;
+        if (listCustomerLocal.length == 0) {
+            $('.img-loading').show();
+            $.ajax({
+                url: URLBase + "/customer/get_all",
+                method: "POST",
+                data: JSON.stringify({}),
+                contentType: 'application/json; charset=UTF-8',
+                processData: false,
+                success: function (data) {
+                    let code = data.code;
+                    let content = data.content;
+                    if(code !== 0)
+                    {
+                        loadCustomerError();
+                        return;
+                    }
+                    listCustomerLocal = content;
+                    localStorage.setItem("listCustomerLocal", JSON.stringify(content));
+                    $('.customer-list').html("");
+                    formatListCustomer(0);
+                },
+                error: function (request, status, error) {
+                    errorServer();
+                },
+                complete: function () {
+                    loadPage = false;
+                    $('.img-loading').hide();
+                }
+            });
+        } else {
+            formatListCustomer(page);
+            pageNumber++;
+            loadPage = false;
+            $('.img-loading').hide();
+        }
+    }
+
+    function formatListCustomer (page) {
+        if (listCustomerLocal) {
+            var listAll =  listCustomerLocal;
+            var record = 50;
+            var listShow = listAll.splice(page * record, record);
+            initListCustomer(listShow);
+        } else {
+            $('.customer-list').html("");
+        }
+    }
 </script>
 </body>
 

@@ -64,6 +64,12 @@
                         <p>Sao lưu dữ liệu</p>
                     </a>
                 </li>
+                <!-- <li class="nav-item btn-sync">
+                    <a class="nav-link" href="javascript:void(0)">
+                        <i class="material-icons">sync</i>
+                        <p>Đồng bộ dữ liệu</p>
+                    </a>
+                </li> -->
 
                 <li class="nav-item">
                     <a class="nav-link btn-logout" href="#">
@@ -106,6 +112,7 @@
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <h4><strong>Thông tin khách hàng</strong></h4>
+                                                <input type="hidden" class="cs-id">
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <div class="form-group">
@@ -507,6 +514,7 @@
             return;
         }
 
+        $('.cs-id').val(dataGlobal.id);
         $('.cs-code').val(dataGlobal.code);
         $('.cs-name').val(dataGlobal.name);
         $('.cs-phone').val(dataGlobal.phone);
@@ -529,6 +537,7 @@
 
     $('.btn-save').on('click', function(e) {
         let customDataUpdate = {};
+        customDataUpdate.id     = $('.cs-id').val()      == "" ? undefined : $('.cs-id').val()    ;
         customDataUpdate.code     = $('.cs-code').val()      == "" ? undefined : $('.cs-code').val()    ;
         customDataUpdate.name     = $('.cs-name').val()      == "" ? undefined : $('.cs-name').val()    ;
         customDataUpdate.phone    = $('.cs-phone').val()     == "" ? undefined : $('.cs-phone').val()   ;
@@ -547,8 +556,47 @@
         customDataUpdate.aeo      = $('.cs-aeo').val()       == "" ? undefined : $('.cs-aeo').val()     ;
         customDataUpdate.among    = $('.cs-among').val()     == "" ? undefined : $('.cs-among').val()   ;
         customDataUpdate.aco      = $('.cs-aco').val()       == "" ? undefined : $('.cs-aco').val()     ;
-        save(customDataUpdate);
+        saveLocal(customDataUpdate);
     });
+
+    function saveLocal(customData) {
+        $('.btn-save').prop( "disabled", true);
+
+        if (customData.code === undefined) {
+            emptyErr("Mã khách hàng");
+            $('.cs-code').focus();
+            return false;
+        }
+        if (customData.name === undefined) {
+            emptyErr("Tên khách hàng");
+            $('.cs-name').focus();
+            return false;
+        }
+        if (customData.phone === undefined) {
+            emptyErr("Số điện thoại");
+            $('.cs-phone').focus();
+            return false;
+        }
+        var listCustomerLocal = [];
+
+        if ( localStorage.getItem("listCustomerLocal") ) {
+            listCustomerLocal = JSON.parse(localStorage.getItem("listCustomerLocal"));
+        }
+        alasql('CREATE TABLE customers');
+        alasql.tables.customers.data = listCustomerLocal;
+        var isUpdate = alasql("UPDATE customers SET code = '" + customData.code + "', name = '" + customData.name + "', phone = '" + customData.phone + "', address = '" + customData.address + "', note = '" + customData.note 
+        + "', qdodai = '"+ customData.qdodai + "', qlung = '" + customData.qlung + "', qmong = '" + customData.qmong + "', qday = '" + customData.qday + "', qdui = '" + customData.qdui + "', qongquan = '" + customData.qongquan 
+        + "', adodai = '" + customData.adodai + "', avai = '" + customData.avai + "', atay = '" +  customData.atay + "', anguc = '" + customData.anguc + "', aeo = '" + customData.aeo + "', among = '" + customData.among
+        + "', aco = '" + customData.aco + "' WHERE id =" + Number(customData.id));
+        
+        if (isUpdate !== 0) {
+            updateSuccess();
+            var list = alasql('select * from customers');
+            localStorage.setItem("listCustomerLocal", JSON.stringify(list));
+            setTimeout(function(){ window.open("./customer-list.html","_self"); }, 2000);
+        }
+        $('.btn-save').prop( "disabled", false);
+    }
 
     function save(customData) {
         $('.btn-save').prop( "disabled", true);
@@ -583,9 +631,29 @@
     $('.btn-del').on('click', function (e) {
         let r = confirm("Bạn có chắc sẽ xóa không?");
         if (r == true) {
-            del();
+            delLocal();
         }
     });
+
+    function delLocal() {
+        var id = $('.cs-id').val();
+        var listCustomerLocal = [];
+
+        if ( localStorage.getItem("listCustomerLocal") ) {
+            listCustomerLocal = JSON.parse(localStorage.getItem("listCustomerLocal"));
+        }
+        alasql('CREATE TABLE customers');
+        alasql.tables.customers.data = listCustomerLocal;
+        var isDel = alasql('DELETE FROM customers WHERE id = ?', Number(id));
+
+        if (isDel !== 0) {
+            deleteSuccess();
+            var list = alasql('select * from customers');
+            localStorage.setItem("listCustomerLocal", JSON.stringify(list));
+            setTimeout(function(){ window.open("./customer-list.html","_self"); }, 1000);
+        }
+        $('.btn-save').prop( "disabled", false);
+    }
 
     function del() {
         $.ajax({

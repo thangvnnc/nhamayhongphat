@@ -64,6 +64,12 @@
                         <p>Sao lưu dữ liệu</p>
                     </a>
                 </li>
+                <!-- <li class="nav-item btn-sync">
+                    <a class="nav-link" href="javascript:void(0)">
+                        <i class="material-icons">sync</i>
+                        <p>Đồng bộ dữ liệu</p>
+                    </a>
+                </li> -->
 
                 <li class="nav-item">
                     <a class="nav-link btn-logout" href="#">
@@ -507,8 +513,71 @@
         customDataAdd.aeo      = $('.cs-aeo').val()       == "" ? undefined : $('.cs-aeo').val()     ;
         customDataAdd.among    = $('.cs-among').val()     == "" ? undefined : $('.cs-among').val()   ;
         customDataAdd.aco      = $('.cs-aco').val()       == "" ? undefined : $('.cs-aco').val()     ;
-        save(customDataAdd);
+        saveLocal(customDataAdd);
     });
+
+    function saveLocal (data) { 
+
+        var listCustomerLocal = [];
+
+        if ( localStorage.getItem("listCustomerLocal") ) {
+            listCustomerLocal = JSON.parse(localStorage.getItem("listCustomerLocal"));
+        }
+        
+        if (data.code === undefined) {
+            emptyErr("Mã khách hàng");
+            $('.cs-code').focus();
+            return false;
+        }
+        if (data.name === undefined) {
+            emptyErr("Tên khách hàng");
+            $('.cs-name').focus();
+            return false;
+        }
+        if (data.phone === undefined) {
+            emptyErr("Số điện thoại");
+            $('.cs-phone').focus();
+            return false;
+        }
+        if (isExist( listCustomerLocal, data.code)) {
+            existErr("Mã khách hàng");
+            $('.cs-code').focus();
+            return false;
+        }
+        var current_datetime = new Date()
+        var formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " 
+        + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds() ;
+
+        data.created_at = formatted_date;
+        data.updated_at = formatted_date;
+        data.created_by = 0;
+        data.updated_by = 0;
+        data.id = createIdIncrement(listCustomerLocal);
+        var isPush = listCustomerLocal.push(data);
+
+        if (isPush !== 0) {
+            addSuccess();
+            localStorage.setItem("listCustomerLocal", JSON.stringify(listCustomerLocal));
+            setTimeout(function(){ window.open("./customer-list.html","_self"); }, 2000);
+        }
+    }
+
+    function isExist (arr, code) {
+
+        for (var i = 0; i<arr.length; i++) {
+            
+            if ( String(arr[i].code) == String(code) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function createIdIncrement (arr) {
+        var res = alasql('SELECT TOP 10 id FROM ? ORDER BY id DESC', [arr] );
+
+        return Number(res[0].id) + 1;
+    }
 
     function save(customData) {
         $('.btn-save').prop( "disabled", true);
