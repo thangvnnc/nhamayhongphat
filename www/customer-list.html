@@ -488,6 +488,7 @@
                 contentType: 'application/json; charset=UTF-8',
                 processData: false,
                 success: function (data) {
+                    data = JSON.parse(data);
                     let code = data.code;
                     let content = data.content;
                     if(code !== 0)
